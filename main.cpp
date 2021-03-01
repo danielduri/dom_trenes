@@ -3,46 +3,20 @@
 
 
 #include <iostream>
-#include <iomanip>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
+
 #include "Hora.h"
-
-bool resolver(std::vector<Hora> & horario, Hora & actual, int c, int f, Hora & solucion) {
-    if (c==f-1)
-    {
-        if (actual <= horario[c]) {
-            solucion = horario[c];
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    int m = (c + f) / 2;
-    if (actual <= horario[m]) {
-        if (actual <= horario[m-1]) {
-            return resolver(horario, actual, c, m, solucion);
-        }
-        else {
-            solucion = horario[m];
-            return true;
-        }
-    }
-    else {
-        return resolver(horario, actual, m, f, solucion);
-    }
-}
-
-
+#include "Pelicula.h"
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
-    int n, check;
-    std::cin >> n >> check;
-    std::vector<Hora> horario(n);
+    int n;
+    std::cin >> n;
+    std::vector<Pelicula> cartelera;
 
     // leer los datos de la entrada
 
@@ -50,31 +24,24 @@ bool resuelveCaso() {
         return false;
 
     for (int i = 0; i < n; i++) {
-        std::string hora_raw;
-        std::cin >> hora_raw;
-        horario[i]=Hora(hora_raw);
+        std::string hora_ini, dur, titulo;
+        std::cin >> hora_ini >> dur;
+        std::cin.ignore();
+        std::getline(std::cin, titulo);
+        try {
+            Hora inicio = Hora(hora_ini);
+            Hora duracion = Hora(dur);
+            cartelera.push_back(Pelicula(inicio, duracion, titulo));
+        } catch (...) {
+            //std::cout << "ERROR" << std::endl;
+        }
+
     }
 
-    for (int i = 0; i < check; i++) {
-        std::string hora_raw;
-        std::cin >> hora_raw;
-        try
-        {
-            Hora actual = Hora(hora_raw), solucion;
+    std::sort(cartelera.begin(), cartelera.end());
 
-            bool encontrado = resolver(horario, actual, 0, horario.size(), solucion);
-
-            if (encontrado) {
-                solucion.print();
-            }
-            else {
-                std::cout << "NO" << std::endl;
-            }
-        }
-        catch (...)
-        {
-            std::cout << "ERROR" << std::endl;
-        }
+    for (int i = 0; i < cartelera.size(); i++) {
+        std::cout << cartelera[i];
     }
 
     std::cout << "---" << std::endl;

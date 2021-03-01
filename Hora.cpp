@@ -64,10 +64,10 @@ bool Hora::operator<=(const Hora &hora2) const {
     return false;
 }
 
-void Hora::print() const {
-    std::cout << std::setfill('0') << std::setw(2) << hora << ":" << std::setfill('0') << std::setw(2) <<
-    minuto << ":" << std::setfill('0') << std::setw(2) << segundo << std::endl;
-}
+//void Hora::print() const {
+//    std::cout << std::setfill('0') << std::setw(2) << hora << ":" << std::setfill('0') << std::setw(2) <<
+//    minuto << ":" << std::setfill('0') << std::setw(2) << segundo << std::endl;
+//}
 
 Hora::Hora() = default;
 
@@ -84,6 +84,31 @@ Hora::Hora(const std::string& hora_raw){
     }
 
 
+}
+
+Hora Hora::operator+(const Hora &rhs) const{
+    Hora suma = Hora();
+    suma.hora = hora + rhs.hora;
+    suma.minuto = minuto + rhs.minuto;
+    suma.segundo = segundo + rhs.segundo;
+    if(suma.segundo>=60){
+        suma.minuto++;
+        suma.segundo-=60;
+    }
+    if (suma.minuto>=60){
+        suma.hora++;
+        suma.minuto-=60;
+    }
+    if (suma.hora>23){
+        throw Error("ERROR");
+    }
+    return suma;
+}
+
+std::ostream &operator<<(std::ostream &os, const Hora &hora) {
+    os << std::setfill('0') << std::setw(2) << hora.hora << ":" << std::setfill('0') << std::setw(2) <<
+       hora.minuto << ":" << std::setfill('0') << std::setw(2) << hora.segundo;
+    return os;
 }
 
 

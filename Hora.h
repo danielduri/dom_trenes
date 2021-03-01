@@ -23,10 +23,11 @@ public:
     bool operator <(Hora const &hora2) const;
     bool operator <=(Hora const &hora2) const;
     void print() const;
-
-    Hora();
+    Hora operator +(Hora const &rhs) const;
 
     friend std::ostream &operator<<(std::ostream &os, const Hora &hora);
+
+    Hora();
 };
 
 #endif //DOM_TRENES_HORA_H

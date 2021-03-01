@@ -3,4 +3,4 @@ project(dom_trenes)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(dom_trenes main.cpp Hora.cpp Hora.h Error.h)
+add_executable(dom_trenes main.cpp Hora.cpp Hora.h Error.h Pelicula.cpp Pelicula.h)
